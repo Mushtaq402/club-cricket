@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — AL-QAIM CRICKET CLUB</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏏</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .error-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+    .error-code {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 20vw, 10rem);
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .error-page p { max-width: 420px; margin: 1rem 0 2rem; }
+    .error-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    html.urdu .error-code { font-family: 'Noto Nastaliq Urdu', serif; }
+  </style>
+</head>
+<body>
+  <main class="error-page">
+    <p class="error-code" data-i18n="err_404_code">404</p>
+    <h1 data-i18n="err_404_title">Page not found</h1>
+    <p data-i18n="err_404_msg">The page you are looking for may have moved or does not exist.</p>
+    <div class="error-actions">
+      <a href="index.html" class="btn-3d btn-3d-primary" data-i18n="err_404_home">Back to Home</a>
+      <button type="button" class="btn-3d btn-3d-ghost" id="lang-toggle" onclick="toggle404Lang()">اردو</button>
+    </div>
+  </main>
+  <script>
+    const i18n = {
+      en: {
+        err_404_code: '404',
+        err_404_title: 'Page not found',
+        err_404_msg: 'The page you are looking for may have moved or does not exist.',
+        err_404_home: 'Back to Home'
+      },
+      ur: {
+        err_404_code: '۴۰۴',
+        err_404_title: 'صفحہ نہیں ملا',
+        err_404_msg: 'جو صفحہ آپ تلاش کر رہے ہیں وہ شاید منتقل ہو گیا ہے یا موجود نہیں ہے۔',
+        err_404_home: 'ہوم پر واپس جائیں'
+      }
+    };
+    let lang = localStorage.getItem('aqcc_lang');
+    try { lang = JSON.parse(lang); } catch { lang = lang || 'en'; }
+    if (lang !== 'ur') lang = 'en';
+
+    function apply404() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (i18n[lang][k]) el.textContent = i18n[lang][k];
+      });
+      document.documentElement.lang = lang === 'ur' ? 'ur' : 'en';
+      document.documentElement.dir = lang === 'ur' ? 'rtl' : 'ltr';
+      document.body.classList.toggle('urdu', lang === 'ur');
+      document.getElementById('lang-toggle').textContent = lang === 'en' ? 'اردو' : 'English';
+    }
+    function toggle404Lang() {
+      lang = lang === 'en' ? 'ur' : 'en';
+      localStorage.setItem('aqcc_lang', JSON.stringify(lang));
+      apply404();
+    }
+    apply404();
+  </script>
+</body>
+</html>

@@ -303,7 +303,7 @@
       <div class="modal-box">
         <h3 data-i18n="mem_success_title">Welcome to the family!</h3>
         <p data-i18n="mem_success_sub">You're now an official AL-QAIM CC Fan Club member.</p>
-        <button class="btn-primary" onclick="closeModal('membership-success-modal')" style="width:100%; margin-top:1rem;">Close</button>
+        <button class="btn-primary" onclick="closeModal('membership-success-modal')" style="width:100%; margin-top:1rem;" data-i18n="btn_close">Close</button>
       </div>
     </div>
   </section>
@@ -387,13 +387,13 @@
   <div id="add-match-modal" class="modal-overlay hidden">
     <div class="modal-box">
       <span class="close-btn" onclick="closeModal('add-match-modal')">&times;</span>
-      <h3>Add New Match</h3>
+      <h3 data-i18n="modal_add_match">Add New Match</h3>
       <form id="add-match-form">
-        <div class="form-group"><label>Opponent</label><input type="text" required></div>
-        <div class="form-group"><label>Date</label><input type="date" required></div>
-        <div class="form-group"><label>Venue</label><input type="text" required></div>
-        <div class="form-group"><label>Match Type</label><select><option>T20</option><option>ODI</option><option>Test</option></select></div>
-        <button type="submit" class="btn-primary">Add Match</button>
+        <div class="form-group"><label data-i18n="lbl_opponent">Opponent</label><input type="text" required></div>
+        <div class="form-group"><label data-i18n="lbl_date">Date</label><input type="date" required></div>
+        <div class="form-group"><label data-i18n="lbl_venue">Venue</label><input type="text" required></div>
+        <div class="form-group"><label data-i18n="lbl_match_type">Match Type</label><select><option>T20</option><option>ODI</option><option>Test</option></select></div>
+        <button type="submit" class="btn-primary" data-i18n="btn_add_match_submit">Add Match</button>
       </form>
     </div>
   </div>
@@ -402,40 +402,40 @@
   <div id="add-player-modal" class="modal-overlay hidden">
     <div class="modal-box modal-wide">
       <span class="close-btn" onclick="closeModal('add-player-modal')">&times;</span>
-      <h3>Add Player</h3>
+      <h3 data-i18n="modal_add_player">Add Player</h3>
       <form id="add-player-form">
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-          <div class="form-group"><label>Player Name</label><input type="text" id="p-name" required></div>
-          <div class="form-group"><label>Jersey #</label><input type="number" id="p-jersey" min="1" max="99"></div>
+          <div class="form-group"><label data-i18n="lbl_player_name">Player Name</label><input type="text" id="p-name" required></div>
+          <div class="form-group"><label data-i18n="lbl_jersey">Jersey #</label><input type="number" id="p-jersey" min="1" max="99"></div>
           <div class="form-group">
-            <label>Role</label>
+            <label data-i18n="lbl_role">Role</label>
             <select id="p-role" required>
-              <option value="">Select role</option>
-              <option>Batsman</option><option>Bowler</option><option>All-rounder</option><option>Wicketkeeper</option>
+              <option value="" data-i18n="lbl_select_role">Select role</option>
+              <option data-i18n="role_batsman">Batsman</option><option data-i18n="role_bowler">Bowler</option><option data-i18n="role_allrounder">All-rounder</option><option data-i18n="role_wicketkeeper">Wicketkeeper</option>
             </select>
           </div>
-          <div class="form-group"><label>Batting Style</label><input type="text" id="p-bat-style" placeholder="Right-hand / Left-hand"></div>
-          <div class="form-group"><label>Bowling Style</label><input type="text" id="p-bowl-style" placeholder="Right-arm fast / Leg-spin..."></div>
-          <div class="form-group"><label>Matches Played</label><input type="number" id="p-matches" min="0" value="0"></div>
-          <div class="form-group"><label>Runs Scored</label><input type="number" id="p-runs" min="0" value="0"></div>
-          <div class="form-group"><label>Highest Score</label><input type="number" id="p-hs" min="0" value="0"></div>
-          <div class="form-group"><label>Batting Avg</label><input type="number" id="p-avg" step="0.01" min="0" value="0"></div>
-          <div class="form-group"><label>Strike Rate</label><input type="number" id="p-sr" step="0.01" min="0" value="0"></div>
-          <div class="form-group"><label>Wickets</label><input type="number" id="p-wkts" min="0" value="0"></div>
-          <div class="form-group"><label>Best Bowling</label><input type="text" id="p-bb" placeholder="e.g. 4/18"></div>
-          <div class="form-group"><label>Bowling Avg</label><input type="number" id="p-bowl-avg" step="0.01" min="0" value="0"></div>
-          <div class="form-group"><label>Economy Rate</label><input type="number" id="p-eco" step="0.01" min="0" value="0"></div>
+          <div class="form-group"><label data-i18n="lbl_bat_style">Batting Style</label><input type="text" id="p-bat-style" data-i18n-placeholder="ph_bat_style"></div>
+          <div class="form-group"><label data-i18n="lbl_bowl_style">Bowling Style</label><input type="text" id="p-bowl-style" data-i18n-placeholder="ph_bowl_style"></div>
+          <div class="form-group"><label data-i18n="lbl_matches_played">Matches Played</label><input type="number" id="p-matches" min="0" value="0"></div>
+          <div class="form-group"><label data-i18n="lbl_runs">Runs Scored</label><input type="number" id="p-runs" min="0" value="0"></div>
+          <div class="form-group"><label data-i18n="lbl_hs">Highest Score</label><input type="number" id="p-hs" min="0" value="0"></div>
+          <div class="form-group"><label data-i18n="lbl_bat_avg">Batting Avg</label><input type="number" id="p-avg" step="0.01" min="0" value="0"></div>
+          <div class="form-group"><label data-i18n="lbl_strike_rate">Strike Rate</label><input type="number" id="p-sr" step="0.01" min="0" value="0"></div>
+          <div class="form-group"><label data-i18n="lbl_wickets">Wickets</label><input type="number" id="p-wkts" min="0" value="0"></div>
+          <div class="form-group"><label data-i18n="lbl_best_bowl">Best Bowling</label><input type="text" id="p-bb" data-i18n-placeholder="ph_best_bowl"></div>
+          <div class="form-group"><label data-i18n="lbl_bowl_avg">Bowling Avg</label><input type="number" id="p-bowl-avg" step="0.01" min="0" value="0"></div>
+          <div class="form-group"><label data-i18n="lbl_economy">Economy Rate</label><input type="number" id="p-eco" step="0.01" min="0" value="0"></div>
         </div>
-        <div class="form-group" style="margin-top:0.5rem;"><label>Bio</label><textarea id="p-bio" rows="2"></textarea></div>
+        <div class="form-group" style="margin-top:0.5rem;"><label data-i18n="lbl_bio">Bio</label><textarea id="p-bio" rows="2"></textarea></div>
         <div class="form-group">
-          <label>Player Photo</label>
+          <label data-i18n="lbl_player_photo">Player Photo</label>
           <div class="file-upload-area" onclick="document.getElementById('p-img-file').click()">
-            <span id="p-img-label">📷 Click to browse photo</span>
+            <span id="p-img-label" data-i18n="lbl_browse_photo">📷 Click to browse photo</span>
             <input type="file" id="p-img-file" accept="image/*" style="display:none" onchange="previewPlayerImg(event)">
           </div>
           <img id="p-img-preview" src="" alt="" style="display:none; width:80px; height:80px; border-radius:50%; object-fit:cover; margin-top:8px; border:2px solid var(--accent-green);">
         </div>
-        <button type="submit" class="btn-primary">Add Player</button>
+        <button type="submit" class="btn-primary" data-i18n="btn_add_player_submit">Add Player</button>
       </form>
     </div>
   </div>
@@ -452,23 +452,23 @@
   <div id="add-event-modal" class="modal-overlay hidden">
     <div class="modal-box">
       <span class="close-btn" onclick="closeModal('add-event-modal')">&times;</span>
-      <h3>Add Event</h3>
+      <h3 data-i18n="modal_add_event">Add Event</h3>
       <form id="add-event-form">
-        <div class="form-group"><label>Event Title</label><input type="text" id="ev-title" required></div>
-        <div class="form-group"><label>Description</label><textarea id="ev-desc" rows="2"></textarea></div>
-        <div class="form-group"><label>Start Date</label><input type="date" id="ev-start" required></div>
-        <div class="form-group"><label>End Date</label><input type="date" id="ev-end" required></div>
+        <div class="form-group"><label data-i18n="lbl_event_title">Event Title</label><input type="text" id="ev-title" required></div>
+        <div class="form-group"><label data-i18n="lbl_description">Description</label><textarea id="ev-desc" rows="2"></textarea></div>
+        <div class="form-group"><label data-i18n="lbl_start_date">Start Date</label><input type="date" id="ev-start" required></div>
+        <div class="form-group"><label data-i18n="lbl_end_date">End Date</label><input type="date" id="ev-end" required></div>
         <div class="form-group"><label>Venue</label><input type="text" id="ev-venue"></div>
         <div class="form-group">
-          <label>Type</label>
+          <label data-i18n="lbl_type">Type</label>
           <select id="ev-type">
-            <option value="tournament">Tournament</option>
-            <option value="training">Training Camp</option>
-            <option value="social">Social Event</option>
-            <option value="trial">Player Trials</option>
+            <option value="tournament" data-i18n="ev_tournament">Tournament</option>
+            <option value="training" data-i18n="ev_training">Training Camp</option>
+            <option value="social" data-i18n="ev_social">Social Event</option>
+            <option value="trial" data-i18n="ev_trial">Player Trials</option>
           </select>
         </div>
-        <button type="submit" class="btn-primary">Add Event</button>
+        <button type="submit" class="btn-primary" data-i18n="btn_add_event_submit">Add Event</button>
       </form>
     </div>
   </div>
@@ -477,14 +477,14 @@
   <div id="add-contest-modal" class="modal-overlay hidden">
     <div class="modal-box">
       <span class="close-btn" onclick="closeModal('add-contest-modal')">&times;</span>
-      <h3>Add New Contest</h3>
+      <h3 data-i18n="modal_add_contest">Add New Contest</h3>
       <form id="add-contest-form">
-        <div class="form-group"><label>Title</label><input type="text" id="ct-title" required></div>
-        <div class="form-group"><label>Description</label><textarea id="ct-desc" rows="2" required></textarea></div>
-        <div class="form-group"><label>Question</label><input type="text" id="ct-question" required></div>
-        <div class="form-group"><label>Correct Answer</label><input type="text" id="ct-answer" required></div>
-        <div class="form-group"><label>Prize</label><input type="text" id="ct-prize" required></div>
-        <button type="submit" class="btn-primary">Add Contest</button>
+        <div class="form-group"><label data-i18n="lbl_title">Title</label><input type="text" id="ct-title" required></div>
+        <div class="form-group"><label data-i18n="lbl_description">Description</label><textarea id="ct-desc" rows="2" required></textarea></div>
+        <div class="form-group"><label data-i18n="lbl_question">Question</label><input type="text" id="ct-question" required></div>
+        <div class="form-group"><label data-i18n="lbl_correct_answer">Correct Answer</label><input type="text" id="ct-answer" required></div>
+        <div class="form-group"><label data-i18n="lbl_prize">Prize</label><input type="text" id="ct-prize" required></div>
+        <button type="submit" class="btn-primary" data-i18n="btn_add_contest_submit">Add Contest</button>
       </form>
     </div>
   </div>
@@ -493,29 +493,29 @@
   <div id="add-product-modal" class="modal-overlay hidden">
     <div class="modal-box">
       <span class="close-btn" onclick="closeModal('add-product-modal')">&times;</span>
-      <h3>Add Shop Product</h3>
+      <h3 data-i18n="modal_add_product">Add Shop Product</h3>
       <form id="add-product-form">
-        <div class="form-group"><label>Product Name</label><input type="text" id="prod-name" required></div>
-        <div class="form-group"><label>Description</label><textarea id="prod-desc" rows="2" required></textarea></div>
-        <div class="form-group"><label>Price (PKR)</label><input type="number" id="prod-price" min="0" required></div>
+        <div class="form-group"><label data-i18n="lbl_product_name">Product Name</label><input type="text" id="prod-name" required></div>
+        <div class="form-group"><label data-i18n="lbl_description">Description</label><textarea id="prod-desc" rows="2" required></textarea></div>
+        <div class="form-group"><label data-i18n="lbl_price_pkr">Price (PKR)</label><input type="number" id="prod-price" min="0" required></div>
         <div class="form-group">
-          <label>Category</label>
+          <label data-i18n="lbl_category">Category</label>
           <select id="prod-cat">
-            <option value="jersey">Jersey</option>
-            <option value="cap">Cap</option>
-            <option value="equipment">Equipment</option>
-            <option value="accessories">Accessories</option>
+            <option value="jersey" data-i18n="cat_jersey">Jersey</option>
+            <option value="cap" data-i18n="cat_cap">Cap</option>
+            <option value="equipment" data-i18n="cat_equipment">Equipment</option>
+            <option value="accessories" data-i18n="cat_accessories">Accessories</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Product Image</label>
+          <label data-i18n="lbl_product_image">Product Image</label>
           <div class="file-upload-area" onclick="document.getElementById('prod-img-file').click()">
-            <span id="prod-img-label">📷 Click to browse image</span>
+            <span id="prod-img-label" data-i18n="lbl_browse_image">📷 Click to browse image</span>
             <input type="file" id="prod-img-file" accept="image/*" style="display:none" onchange="previewProductImg(event)">
           </div>
           <img id="prod-img-preview" src="" alt="" style="display:none; width:100px; height:100px; object-fit:cover; margin-top:8px; border-radius:8px; border:1px solid var(--border);">
         </div>
-        <button type="submit" class="btn-primary">Add Product</button>
+        <button type="submit" class="btn-primary" data-i18n="btn_add_product_submit">Add Product</button>
       </form>
     </div>
   </div>
@@ -524,12 +524,12 @@
   <div id="new-topic-modal" class="modal-overlay hidden">
     <div class="modal-box">
       <span class="close-btn" onclick="closeModal('new-topic-modal')">&times;</span>
-      <h3>Start a New Discussion</h3>
+      <h3 data-i18n="modal_new_topic">Start a New Discussion</h3>
       <form id="new-topic-form">
-        <div class="form-group"><label>Your Name</label><input type="text" id="topic-author" required></div>
-        <div class="form-group"><label>Topic Title</label><input type="text" id="topic-title" required></div>
-        <div class="form-group"><label>Your Message</label><textarea id="topic-body" rows="4" required></textarea></div>
-        <button type="submit" class="btn-primary">Post Topic</button>
+        <div class="form-group"><label data-i18n="lbl_your_name">Your Name</label><input type="text" id="topic-author" required></div>
+        <div class="form-group"><label data-i18n="lbl_topic_title">Topic Title</label><input type="text" id="topic-title" required></div>
+        <div class="form-group"><label data-i18n="lbl_your_message">Your Message</label><textarea id="topic-body" rows="4" required></textarea></div>
+        <button type="submit" class="btn-primary" data-i18n="btn_post_topic">Post Topic</button>
       </form>
     </div>
   </div>
@@ -541,9 +541,9 @@
       <h3 id="thread-title"></h3>
       <div id="thread-replies"></div>
       <form id="reply-form">
-        <div class="form-group"><label>Your Name</label><input type="text" id="reply-author" required></div>
-        <div class="form-group"><label>Reply</label><textarea id="reply-body" rows="3" required></textarea></div>
-        <button type="submit" class="btn-primary">Post Reply</button>
+        <div class="form-group"><label data-i18n="lbl_your_name">Your Name</label><input type="text" id="reply-author" required></div>
+        <div class="form-group"><label data-i18n="lbl_reply">Reply</label><textarea id="reply-body" rows="3" required></textarea></div>
+        <button type="submit" class="btn-primary" data-i18n="btn_post_reply">Post Reply</button>
       </form>
     </div>
   </div>

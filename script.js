@@ -297,7 +297,28 @@ const i18n = {
     empty_matches:'No upcoming matches scheduled. Check back soon!',
     footer_tagline:'AL-QAIM Cricket Club · Bhakkar, Punjab',
     footer_copy:'© 2026 Al-Qaim CC. All rights reserved.',
-    modal_add_match:'Add New Match',
+    modal_add_match:'Add New Match', btn_add_match_submit:'Add Match',
+    modal_add_player:'Add Player', lbl_player_name:'Player Name', lbl_jersey:'Jersey #', lbl_role:'Role',
+    lbl_select_role:'Select role', role_batsman:'Batsman', role_bowler:'Bowler', role_allrounder:'All-rounder', role_wicketkeeper:'Wicketkeeper',
+    lbl_bat_style:'Batting Style', lbl_bowl_style:'Bowling Style', lbl_matches_played:'Matches Played',
+    lbl_runs:'Runs Scored', lbl_hs:'Highest Score', lbl_bat_avg:'Batting Avg', lbl_strike_rate:'Strike Rate',
+    lbl_wickets:'Wickets', lbl_best_bowl:'Best Bowling', lbl_bowl_avg:'Bowling Avg', lbl_economy:'Economy Rate',
+    lbl_bio:'Bio', lbl_player_photo:'Player Photo', lbl_browse_photo:'📷 Click to browse photo',
+    ph_bat_style:'Right-hand / Left-hand', ph_bowl_style:'Right-arm fast / Leg-spin...', ph_best_bowl:'e.g. 4/18',
+    btn_add_player_submit:'Add Player',
+    modal_add_event:'Add Event', lbl_event_title:'Event Title', lbl_description:'Description',
+    lbl_start_date:'Start Date', lbl_end_date:'End Date', lbl_type:'Type',
+    ev_tournament:'Tournament', ev_training:'Training Camp', ev_social:'Social Event', ev_trial:'Player Trials',
+    btn_add_event_submit:'Add Event',
+    modal_add_contest:'Add New Contest', lbl_title:'Title', lbl_question:'Question',
+    lbl_correct_answer:'Correct Answer', lbl_prize:'Prize', btn_add_contest_submit:'Add Contest',
+    modal_add_product:'Add Shop Product', lbl_product_name:'Product Name', lbl_price_pkr:'Price (PKR)',
+    lbl_category:'Category', cat_jersey:'Jersey', cat_cap:'Cap', cat_equipment:'Equipment', cat_accessories:'Accessories',
+    lbl_product_image:'Product Image', lbl_browse_image:'📷 Click to browse image', btn_add_product_submit:'Add Product',
+    modal_new_topic:'Start a New Discussion', lbl_your_name:'Your Name', lbl_topic_title:'Topic Title',
+    lbl_your_message:'Your Message', btn_post_topic:'Post Topic', lbl_reply:'Reply', btn_post_reply:'Post Reply',
+    btn_close:'Close',
+    lbl_opponent:'Opponent', lbl_date:'Date', lbl_venue:'Venue', lbl_match_type:'Match Type',
   },
   ur: {
     nav_title:'القائم کرکٹ کلب', nav_home:'ہوم', nav_matches:'میچز', nav_players:'کھلاڑی',
@@ -359,7 +380,28 @@ const i18n = {
     empty_matches:'کوئی آنے والا میچ شیڈول نہیں۔ جلد دوبارہ چیک کریں!',
     footer_tagline:'القائم کرکٹ کلب · بھکر، پنجاب',
     footer_copy:'© 2026 القائم سی سی۔ جملہ حقوق محفوظ ہیں۔',
-    modal_add_match:'نیا میچ شامل کریں',
+    modal_add_match:'نیا میچ شامل کریں', btn_add_match_submit:'میچ شامل کریں',
+    modal_add_player:'کھلاڑی شامل کریں', lbl_player_name:'کھلاڑی کا نام', lbl_jersey:'جرسی نمبر', lbl_role:'کردار',
+    lbl_select_role:'کردار منتخب کریں', role_batsman:'بلے باز', role_bowler:'گیند باز', role_allrounder:'آل راؤنڈر', role_wicketkeeper:'وکٹ کیپر',
+    lbl_bat_style:'بلے بازی کا انداز', lbl_bowl_style:'گیند بازی کا انداز', lbl_matches_played:'کھیلے گئے میچز',
+    lbl_runs:'رنز', lbl_hs:'بلند ترین اسکور', lbl_bat_avg:'بیٹنگ اوسط', lbl_strike_rate:'اسٹرائیک ریٹ',
+    lbl_wickets:'وکٹیں', lbl_best_bowl:'بہترین گیند بازی', lbl_bowl_avg:'گیند بازی اوسط', lbl_economy:'اکانومی ریٹ',
+    lbl_bio:'تعارف', lbl_player_photo:'کھلاڑی کی تصویر', lbl_browse_photo:'📷 تصویر منتخب کریں',
+    ph_bat_style:'دائیں ہاتھ / بائیں ہاتھ', ph_bowl_style:'دائیں بازو تیز / لیگ سپن...', ph_best_bowl:'مثال: 4/18',
+    btn_add_player_submit:'کھلاڑی شامل کریں',
+    modal_add_event:'تقریب شامل کریں', lbl_event_title:'تقریب کا عنوان', lbl_description:'تفصیل',
+    lbl_start_date:'شروع کی تاریخ', lbl_end_date:'اختتام کی تاریخ', lbl_type:'قسم',
+    ev_tournament:'ٹورنامنٹ', ev_training:'تربیتی کیمپ', ev_social:'سماجی تقریب', ev_trial:'کھلاڑی ٹرائلز',
+    btn_add_event_submit:'تقریب شامل کریں',
+    modal_add_contest:'نیا مقابلہ شامل کریں', lbl_title:'عنوان', lbl_question:'سوال',
+    lbl_correct_answer:'درست جواب', lbl_prize:'انعام', btn_add_contest_submit:'مقابلہ شامل کریں',
+    modal_add_product:'شاپ پروڈکٹ شامل کریں', lbl_product_name:'پروڈکٹ کا نام', lbl_price_pkr:'قیمت (روپے)',
+    lbl_category:'زمرہ', cat_jersey:'جرسی', cat_cap:'کیپ', cat_equipment:'سازوسامان', cat_accessories:'لوازمات',
+    lbl_product_image:'پروڈکٹ کی تصویر', lbl_browse_image:'📷 تصویر منتخب کریں', btn_add_product_submit:'پروڈکٹ شامل کریں',
+    modal_new_topic:'نئی بحث شروع کریں', lbl_your_name:'آپ کا نام', lbl_topic_title:'موضوع کا عنوان',
+    lbl_your_message:'آپ کا پیغام', btn_post_topic:'موضوع شائع کریں', lbl_reply:'جواب', btn_post_reply:'جواب شائع کریں',
+    btn_close:'بند کریں',
+    lbl_opponent:'مخالف ٹیم', lbl_date:'تاریخ', lbl_venue:'میدان', lbl_match_type:'میچ کی قسم',
   }
 };
 
@@ -959,7 +1001,7 @@ $('add-player-form').addEventListener('submit', e => {
   renderPlayers();
   $('add-player-form').reset();
   $('p-img-preview').style.display = 'none';
-  $('p-img-label').textContent = '📷 Click to browse photo';
+  $('p-img-label').textContent = t('lbl_browse_photo');
   playerImgDataUrl = '';
   closeModal('add-player-modal');
 });
@@ -1289,7 +1331,7 @@ $('add-product-form').addEventListener('submit', e => {
   saveProducts(products); renderShop();
   $('add-product-form').reset();
   $('prod-img-preview').style.display = 'none';
-  $('prod-img-label').textContent = '📷 Click to browse image';
+  $('prod-img-label').textContent = t('lbl_browse_image');
   productImgDataUrl = '';
   closeModal('add-product-modal');
 });

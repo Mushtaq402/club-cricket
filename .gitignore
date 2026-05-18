@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+node_modules/
+_patch_*.js
+_patch_*.py
