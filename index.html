@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>AL-QAIM CRICKET CLUB — Bhakkar, Punjab</title>
+  <meta name="description" content="Official website of Al-Qaim Cricket Club, Bhakkar. Matches, players, live scores, events, media gallery and fan engagement.">
+  <meta name="keywords" content="Al-Qaim Cricket Club, Bhakkar cricket, tape ball cricket, Pakistan cricket club">
+  <meta name="author" content="AL-QAIM CRICKET CLUB">
+  
+  <!-- Open Graph (Social Sharing) -->
+  <meta property="og:title" content="AL-QAIM CRICKET CLUB">
+  <meta property="og:description" content="Official website of Al-Qaim Cricket Club, Bhakkar — Passion. Teamwork. Victory.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourusername.github.io/al-qaim-cricket">
+  <meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'><rect fill='%23080c14' width='1200' height='630'/><text x='600' y='315' font-size='200' text-anchor='middle' dominant-baseline='middle' fill='%2300e5a0'>🏏 AL-QAIM CC</text></svg>">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AL-QAIM CRICKET CLUB">
+  <meta name="twitter:description" content="Official website of Al-Qaim Cricket Club, Bhakkar">
+  
+  <!-- Mobile & Icons -->
+  <meta name="theme-color" content="#00e5a0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏏</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23080c14' width='180' height='180' rx='40'/><text x='90' y='90' font-size='120' text-anchor='middle' dominant-baseline='middle'>🏏</text></svg>">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══ NAV ══ -->
+  <nav>
+    <h1 data-i18n="nav_title">AL-QAIM CRICKET CLUB</h1>
+    
+    <!-- Mobile Menu Toggle -->
+    <button class="hamburger" id="hamburger-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    
+    <ul id="nav-menu" class="nav-menu">
+      <li><a href="#hero"          data-i18n="nav_home">Home</a></li>
+      <li><a href="#matches"       data-i18n="nav_matches">Matches</a></li>
+      <li><a href="#players"       data-i18n="nav_players">Players</a></li>
+      <li><a href="#events"        data-i18n="nav_events">Events</a></li>
+      <li><a href="#media"         data-i18n="nav_media">Media</a></li>
+      <li><a href="#fan-engagement" data-i18n="nav_fans">Fans</a></li>
+      <li><a href="#shop"          data-i18n="nav_shop">Shop</a></li>
+      <li><a href="#about"         data-i18n="nav_about">About</a></li>
+      <li><a href="#contact"       data-i18n="nav_contact">Contact</a></li>
+    </ul>
+    
+    <div class="nav-right">
+      <button id="lang-toggle" class="lang-btn" onclick="toggleLanguage()" aria-label="Switch language">اردو</button>
+      <a href="#" id="admin-login-link" data-i18n="nav_login">Staff Login</a>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <header>
+    <section id="hero">
+      <h1 data-i18n="hero_title">Welcome to AL-QAIM CRICKET CLUB</h1>
+      <p data-i18n="hero_sub">Passion. Teamwork. Victory.</p>
+      <a href="#matches" data-i18n="hero_cta1">View Upcoming Matches</a>
+      <a href="#membership" data-i18n="hero_cta2">Join the Fan Club</a>
+    </section>
+  </header>
+
+  <main>
+    <!-- ══ MATCHES ══ -->
+    <section id="matches">
+      <h2 data-i18n="matches_title">Matches</h2>
+      <div class="matches-tabs">
+        <button class="tab-btn active" onclick="switchMatchTab('upcoming',this)" data-i18n="tab_upcoming">Upcoming</button>
+        <button class="tab-btn" onclick="switchMatchTab('scorecard',this)" data-i18n="tab_scorecard">Scorecards</button>
+      </div>
+
+      <!-- Upcoming -->
+      <div id="tab-upcoming" class="tab-panel">
+        <div class="section-header-row" style="margin-bottom:1.2rem;">
+          <span></span>
+          <button class="admin-btn add-btn hidden" id="open-add-match-modal" data-i18n="btn_add_match">+ Add Match</button>
+        </div>
+        <div id="upcoming-matches-list"></div>
+      </div>
+
+      <!-- Scorecards -->
+      <div id="tab-scorecard" class="tab-panel hidden">
+        <div class="section-header-row" style="margin-bottom:1.2rem;">
+          <span></span>
+          <button class="admin-btn add-btn hidden" id="open-add-scorecard-btn" data-i18n="btn_add_scorecard">+ Add Scorecard</button>
+        </div>
+        <div id="scorecards-list"></div>
+      </div>
+    </section>
+
+    <!-- ══ LIVE ══ -->
+    <section id="live-scores">
+      <h2 data-i18n="live_title">Live</h2>
+      <div class="live-grid">
+        <!-- Score Panel -->
+        <div class="live-score-card">
+          <div id="live-no-match" class="live-offline">
+            <div class="live-offline-icon">📡</div>
+            <p data-i18n="live_no_event">No live events happening right now.</p>
+            <span data-i18n="live_check_back">Check back during match days!</span>
+          </div>
+          <div id="live-score-panel" class="hidden">
+            <p><strong data-i18n="live_team">AL-QAIM CC</strong> vs <strong id="live-opponent">—</strong></p>
+            <p data-i18n="live_score_label">Score: <span id="live-runs">0</span>/<span id="live-wickets">0</span> (<span id="live-overs">0.0</span> overs)</p>
+            <p data-i18n="live_target_label">Target: <span id="live-target">—</span></p>
+            <p data-i18n="live_status_label">Status: <span id="live-status">—</span></p>
+          </div>
+          <div class="admin-only hidden live-admin-controls">
+            <button class="admin-btn add-btn" onclick="openUpdateScoreModal()" data-i18n="btn_update_score">Update Score</button>
+            <button class="admin-btn delete-btn" onclick="toggleLiveMatch()" id="live-toggle-btn" data-i18n="btn_go_live">Go Live</button>
+          </div>
+        </div>
+        <!-- Streaming Panel -->
+        <div class="live-stream-card">
+          <div id="stream-offline" class="live-offline">
+            <div class="live-offline-icon">📺</div>
+            <p data-i18n="stream_no_event">No live stream at the moment.</p>
+            <span data-i18n="stream_check_back">We'll stream upcoming matches here!</span>
+          </div>
+          <div id="stream-active" class="hidden">
+            <div id="stream-embed-wrap"></div>
+          </div>
+          <div class="admin-only hidden" style="margin-top:1rem;">
+            <button class="admin-btn add-btn" onclick="openStreamModal()" data-i18n="btn_set_stream">Set Stream URL</button>
+            <button class="admin-btn delete-btn" onclick="stopStream()" id="stop-stream-btn" style="display:none;" data-i18n="btn_stop_stream">Stop Stream</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ══ EVENTS ══ -->
+  <section id="events">
+    <h2 data-i18n="events_title">Events</h2>
+    <div class="events-filter">
+      <button class="filter-btn active" onclick="filterEvents('all',this)" data-i18n="filter_all">All</button>
+      <button class="filter-btn" onclick="filterEvents('upcoming',this)" data-i18n="filter_upcoming">Upcoming</button>
+      <button class="filter-btn" onclick="filterEvents('current',this)" data-i18n="filter_current">Ongoing</button>
+      <button class="filter-btn" onclick="filterEvents('past',this)" data-i18n="filter_past">Past</button>
+      <button class="admin-btn add-btn hidden" id="open-add-event-btn" style="margin-left:auto;" data-i18n="btn_add_event">+ Add Event</button>
+    </div>
+    <div id="events-list"></div>
+  </section>
+
+  <!-- ══ MEDIA GALLERY ══ -->
+  <section id="media">
+    <h2 data-i18n="media_title">Media Gallery</h2>
+    <div class="media-tabs">
+      <button class="tab-btn active" onclick="switchMediaTab('photos',this)" data-i18n="tab_photos">Photos</button>
+      <button class="tab-btn" onclick="switchMediaTab('videos',this)" data-i18n="tab_videos">Videos</button>
+    </div>
+
+    <div id="media-tab-photos" class="tab-panel">
+      <div class="section-header-row" style="margin-bottom:1.2rem;">
+        <span class="media-count" id="photo-count"></span>
+        <button class="media-mgr-btn add-btn hidden" onclick="document.getElementById('photo-file-input').click()" data-i18n="btn_add_photo">+ Add Photos</button>
+        <input type="file" id="photo-file-input" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)" aria-label="Upload photos">
+      </div>
+      <div id="photo-gallery" class="media-grid"></div>
+    </div>
+
+    <div id="media-tab-videos" class="tab-panel hidden">
+      <div class="section-header-row" style="margin-bottom:1.2rem;">
+        <span class="media-count" id="video-count"></span>
+        <button class="media-mgr-btn add-btn hidden" onclick="document.getElementById('video-url-input').click()" data-i18n="btn_add_video">+ Add Videos</button>
+        <input type="text" id="video-url-input" placeholder="Paste YouTube/Vimeo URL" style="display:none" onchange="handleVideoInput(event)" aria-label="Video URL input">
+      </div>
+      <div id="video-gallery" class="media-grid"></div>
+    </div>
+  </section>
+
+  <!-- ══ FAN ENGAGEMENT ══ -->
+  <section id="fan-engagement">
+    <h2 data-i18n="fans_title">Fan Engagement</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; margin-top:2rem;">
+      <!-- Contests Card -->
+      <div class="section-card">
+        <h3 style="margin-bottom:0.5rem;" data-i18n="fans_contests">Contests</h3>
+        <p style="margin-bottom:1.5rem;" data-i18n="fans_contests_sub">Participate in trivia contests and win official merchandise!</p>
+        <a href="#contests" data-i18n="fans_view_contests">View All Contests →</a>
+      </div>
+      <!-- Fantasy Card -->
+      <div class="section-card">
+        <h3 style="margin-bottom:0.5rem;" data-i18n="fans_fantasy">Fantasy League</h3>
+        <p style="margin-bottom:1.5rem;" data-i18n="fans_fantasy_sub">Create your dream team and compete with other fans.</p>
+        <a href="#fantasy" data-i18n="fans_play">Start Playing →</a>
+      </div>
+      <!-- Forum Card -->
+      <div class="section-card">
+        <h3 style="margin-bottom:0.5rem;" data-i18n="fans_forum">Community Forum</h3>
+        <p style="margin-bottom:1.5rem;" data-i18n="fans_forum_sub">Discuss matches, share opinions, connect with fans.</p>
+        <a href="#forum" data-i18n="fans_discuss">Join the Discussion →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PLAYERS ══ -->
+  <section id="players">
+    <h2 data-i18n="players_title">Meet Our Players</h2>
+    <button class="admin-btn add-btn hidden" id="open-add-player-btn" style="margin-bottom:2rem;" data-i18n="btn_add_player">+ Add Player</button>
+    <div class="player-profiles" id="player-profiles"></div>
+  </section>
+
+  <!-- ══ CONTESTS ══ -->
+  <section id="contests">
+    <h2 data-i18n="contests_title">Contests</h2>
+    <p data-i18n="contests_sub">Participate in our trivia contests and win official merchandise!</p>
+    <button class="admin-btn add-btn hidden" id="open-add-contest-btn" style="margin-bottom:2rem;" data-i18n="btn_add_contest">+ Add Contest</button>
+    <div id="contests-list"></div>
+  </section>
+
+  <!-- ══ FANTASY LEAGUE ══ -->
+  <section id="fantasy">
+    <h2 data-i18n="fantasy_title">Fantasy League</h2>
+    <h3 data-i18n="fantasy_sub">Build Your Dream XI</h3>
+    <p data-i18n="fantasy_desc">Select 11 players from our squad and earn points based on their real-world performance.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:2rem;">
+      <div><h4 data-i18n="fantasy_available">Available Players</h4><div id="fantasy-players"></div></div>
+      <div><h4>Your Team</h4><div id="fantasy-team"></div><button class="btn-primary" style="margin-top:1rem;" data-i18n="fantasy_submit">Submit Team</button></div>
+    </div>
+    <h3 style="margin-top:3rem;" data-i18n="fantasy_lb">Leaderboard</h3>
+    <div id="fantasy-leaderboard"></div>
+  </section>
+
+  <!-- ══ FORUM ══ -->
+  <section id="forum">
+    <h2 data-i18n="forum_title">Community Forum</h2>
+    <p data-i18n="forum_sub">Discuss matches, share opinions, and connect with fellow fans.</p>
+    <button class="admin-btn add-btn hidden" id="open-add-topic-btn" style="margin-bottom:2rem;" onclick="openModal('new-topic-modal')" data-i18n="forum_new_topic">+ Start New Topic</button>
+    <div id="forum-topics"></div>
+  </section>
+
+  <!-- ══ SHOP ══ -->
+  <section id="shop">
+    <h2 data-i18n="shop_title">Club Shop</h2>
+    <p data-i18n="shop_sub">Official AL-QAIM CC merchandise — wear your pride.</p>
+    <button class="admin-btn add-btn hidden" id="open-add-product-btn" style="margin-bottom:2rem;" data-i18n="btn_add_product">+ Add Product</button>
+    <div id="shop-grid" class="shop-grid"></div>
+  </section>
+
+  <!-- ══ MEMBERSHIP ══ -->
+  <section id="membership">
+    <div class="membership-grid">
+      <div class="membership-info">
+        <h2 data-i18n="mem_title">Membership</h2>
+        <p data-i18n="mem_join">Join the Fan Club</p>
+        <p data-i18n="mem_desc">Become an official member of the AL-QAIM CC Fan Club and unlock exclusive benefits.</p>
+        <ul class="benefit-list">
+          <li data-i18n="mem_b1">🏏 Exclusive match updates & newsletters</li>
+          <li data-i18n="mem_b2">🎽 Merchandise discounts up to 20%</li>
+          <li data-i18n="mem_b3">🎟️ Early access to match tickets</li>
+          <li data-i18n="mem_b4">🏆 Access to Fantasy League competitions</li>
+          <li data-i18n="mem_b5">💬 Full Community Forum access</li>
+        </ul>
+        <div class="member-count" id="member-count"></div>
+        <div class="admin-panel hidden" id="members-admin-panel">
+          <h3 style="margin-top:2rem;">Member List</h3>
+          <table class="members-table" id="members-table"></table>
+        </div>
+      </div>
+      <form id="membership-form" style="background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:2.5rem;">
+        <div class="form-group"><label data-i18n="mem_name">Full Name</label><input type="text" id="mem-name" required></div>
+        <div class="form-group"><label data-i18n="mem_email">Email Address</label><input type="email" id="mem-email" required></div>
+        <div class="form-group"><label data-i18n="mem_phone">Phone (optional)</label><input type="tel" id="mem-phone"></div>
+        <div class="form-group"><label data-i18n="mem_city">City</label><input type="text" id="mem-city"></div>
+        <button type="submit" class="btn-primary" style="width:100%;" data-i18n="mem_submit">Sign Up Now — It's Free</button>
+      </form>
+    </div>
+    <div id="membership-success-modal" class="modal-overlay hidden">
+      <div class="modal-box">
+        <h3 data-i18n="mem_success_title">Welcome to the family!</h3>
+        <p data-i18n="mem_success_sub">You're now an official AL-QAIM CC Fan Club member.</p>
+        <button class="btn-primary" onclick="closeModal('membership-success-modal')" style="width:100%; margin-top:1rem;">Close</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ABOUT ══ -->
+  <section id="about">
+    <h2 data-i18n="about_title">About Us</h2>
+    <p data-i18n="about_p1">Al Qaim Cricket Club is dedicated to promoting tape ball cricket, organizing transparent tournaments, and building a strong community of players and fans.</p>
+    
+    <h3 data-i18n="about_vision">Our Vision</h3>
+    <p data-i18n="about_vision_p">To become the leading cricket club in Bhakkar, fostering youth development and creating opportunities for players to shine on bigger platforms.</p>
+    
+    <h3 data-i18n="about_leadership">Leadership</h3>
+    <p><strong data-i18n="about_president">President:</strong> <span id="president-name">To be announced</span></p>
+    <p><strong data-i18n="about_vp">Vice President:</strong> <span id="vp-name">To be announced</span></p>
+    <p><strong data-i18n="about_coach">Coach:</strong> <span id="coach-name">To be announced</span></p>
+  </section>
+
+  <!-- ══ CONTACT ══ -->
+  <section id="contact">
+    <h2 data-i18n="contact_title">Contact Us</h2>
+    <p data-i18n="contact_sub">We'd love to hear from you! Reach out for queries, sponsorships, or collaborations.</p>
+    
+    <div class="contact-grid">
+      <form id="contact-form" class="contact-form">
+        <div class="form-group"><label data-i18n="contact_name">Name</label><input type="text" id="contact-name" required></div>
+        <div class="form-group"><label data-i18n="contact_email">Email</label><input type="email" id="contact-email" required></div>
+        <div class="form-group"><label data-i18n="contact_subject">Subject</label><input type="text" id="contact-subject" required></div>
+        <div class="form-group"><label data-i18n="contact_message">Message</label><textarea id="contact-message" rows="4" required></textarea></div>
+        <button type="submit" class="btn-primary" style="width:100%;" data-i18n="contact_send">Send Message</button>
+      </form>
+      
+      <div class="contact-info">
+        <h3 data-i18n="contact_other">Other Ways to Connect</h3>
+        <div class="contact-detail">📍 Bhakkar, Punjab, Pakistan</div>
+        <div class="contact-detail">📞 Coming Soon</div>
+        <div class="contact-detail">📧 contact@alqaimcc.pk</div>
+        <div class="social-links">
+          <button class="social-btn fb" onclick="alert('Facebook page coming soon')" aria-label="Facebook">f</button>
+          <button class="social-btn ig" onclick="alert('Instagram coming soon')" aria-label="Instagram">📷</button>
+          <button class="social-btn yt" onclick="alert('YouTube channel coming soon')" aria-label="YouTube">▶</button>
+        </div>
+        <div class="admin-panel hidden" id="contact-admin-panel" style="margin-top:2rem;">
+          <h3>Messages</h3>
+          <div class="messages-list" id="messages-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LOGIN MODAL ══ -->
+  <div id="login-modal" class="modal-overlay hidden">
+    <div class="login-box">
+      <div class="login-logo" data-i18n="nav_title">AL-QAIM CRICKET CLUB</div>
+      <div class="login-sub" data-i18n="login_sub">Staff Panel — Secure Login</div>
+      <label data-i18n="login_user">Username</label>
+      <input type="text" id="u-input" placeholder="admin / mediamgr / scorekeeper / shopmgr" autocomplete="off">
+      <label data-i18n="login_pass">Password</label>
+      <input type="password" id="p-input" placeholder="•••••" autocomplete="off">
+      <button id="login-btn" onclick="doLogin()" data-i18n="login_btn">Login</button>
+      <div id="login-error" data-i18n="login_error">⚠ Invalid credentials. Please try again.</div>
+      <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted);">
+        <strong>⚠️ NOTE FOR PRODUCTION:</strong> This authentication is client-side only for demonstration. For production deployment, implement server-side authentication with proper security.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODALS (Rest of modals from original file) ══ -->
+  <!-- Add Match Modal -->
+  <div id="add-match-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <span class="close-btn" onclick="closeModal('add-match-modal')">&times;</span>
+      <h3>Add New Match</h3>
+      <form id="add-match-form">
+        <div class="form-group"><label>Opponent</label><input type="text" required></div>
+        <div class="form-group"><label>Date</label><input type="date" required></div>
+        <div class="form-group"><label>Venue</label><input type="text" required></div>
+        <div class="form-group"><label>Match Type</label><select><option>T20</option><option>ODI</option><option>Test</option></select></div>
+        <button type="submit" class="btn-primary">Add Match</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Player Modal -->
+  <div id="add-player-modal" class="modal-overlay hidden">
+    <div class="modal-box modal-wide">
+      <span class="close-btn" onclick="closeModal('add-player-modal')">&times;</span>
+      <h3>Add Player</h3>
+      <form id="add-player-form">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div class="form-group"><label>Player Name</label><input type="text" id="p-name" required></div>
+          <div class="form-group"><label>Jersey #</label><input type="number" id="p-jersey" min="1" max="99"></div>
+          <div class="form-group">
+            <label>Role</label>
+            <select id="p-role" required>
+              <option value="">Select role</option>
+              <option>Batsman</option><option>Bowler</option><option>All-rounder</option><option>Wicketkeeper</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Batting Style</label><input type="text" id="p-bat-style" placeholder="Right-hand / Left-hand"></div>
+          <div class="form-group"><label>Bowling Style</label><input type="text" id="p-bowl-style" placeholder="Right-arm fast / Leg-spin..."></div>
+          <div class="form-group"><label>Matches Played</label><input type="number" id="p-matches" min="0" value="0"></div>
+          <div class="form-group"><label>Runs Scored</label><input type="number" id="p-runs" min="0" value="0"></div>
+          <div class="form-group"><label>Highest Score</label><input type="number" id="p-hs" min="0" value="0"></div>
+          <div class="form-group"><label>Batting Avg</label><input type="number" id="p-avg" step="0.01" min="0" value="0"></div>
+          <div class="form-group"><label>Strike Rate</label><input type="number" id="p-sr" step="0.01" min="0" value="0"></div>
+          <div class="form-group"><label>Wickets</label><input type="number" id="p-wkts" min="0" value="0"></div>
+          <div class="form-group"><label>Best Bowling</label><input type="text" id="p-bb" placeholder="e.g. 4/18"></div>
+          <div class="form-group"><label>Bowling Avg</label><input type="number" id="p-bowl-avg" step="0.01" min="0" value="0"></div>
+          <div class="form-group"><label>Economy Rate</label><input type="number" id="p-eco" step="0.01" min="0" value="0"></div>
+        </div>
+        <div class="form-group" style="margin-top:0.5rem;"><label>Bio</label><textarea id="p-bio" rows="2"></textarea></div>
+        <div class="form-group">
+          <label>Player Photo</label>
+          <div class="file-upload-area" onclick="document.getElementById('p-img-file').click()">
+            <span id="p-img-label">📷 Click to browse photo</span>
+            <input type="file" id="p-img-file" accept="image/*" style="display:none" onchange="previewPlayerImg(event)">
+          </div>
+          <img id="p-img-preview" src="" alt="" style="display:none; width:80px; height:80px; border-radius:50%; object-fit:cover; margin-top:8px; border:2px solid var(--accent-green);">
+        </div>
+        <button type="submit" class="btn-primary">Add Player</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Player Stats Card Modal -->
+  <div id="player-stats-modal" class="modal-overlay hidden">
+    <div class="modal-box modal-wide">
+      <span class="close-btn" onclick="closeModal('player-stats-modal')">&times;</span>
+      <div id="player-stats-content"></div>
+    </div>
+  </div>
+
+  <!-- Add Event Modal -->
+  <div id="add-event-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <span class="close-btn" onclick="closeModal('add-event-modal')">&times;</span>
+      <h3>Add Event</h3>
+      <form id="add-event-form">
+        <div class="form-group"><label>Event Title</label><input type="text" id="ev-title" required></div>
+        <div class="form-group"><label>Description</label><textarea id="ev-desc" rows="2"></textarea></div>
+        <div class="form-group"><label>Start Date</label><input type="date" id="ev-start" required></div>
+        <div class="form-group"><label>End Date</label><input type="date" id="ev-end" required></div>
+        <div class="form-group"><label>Venue</label><input type="text" id="ev-venue"></div>
+        <div class="form-group">
+          <label>Type</label>
+          <select id="ev-type">
+            <option value="tournament">Tournament</option>
+            <option value="training">Training Camp</option>
+            <option value="social">Social Event</option>
+            <option value="trial">Player Trials</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Add Event</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Contest Modal -->
+  <div id="add-contest-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <span class="close-btn" onclick="closeModal('add-contest-modal')">&times;</span>
+      <h3>Add New Contest</h3>
+      <form id="add-contest-form">
+        <div class="form-group"><label>Title</label><input type="text" id="ct-title" required></div>
+        <div class="form-group"><label>Description</label><textarea id="ct-desc" rows="2" required></textarea></div>
+        <div class="form-group"><label>Question</label><input type="text" id="ct-question" required></div>
+        <div class="form-group"><label>Correct Answer</label><input type="text" id="ct-answer" required></div>
+        <div class="form-group"><label>Prize</label><input type="text" id="ct-prize" required></div>
+        <button type="submit" class="btn-primary">Add Contest</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Product Modal -->
+  <div id="add-product-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <span class="close-btn" onclick="closeModal('add-product-modal')">&times;</span>
+      <h3>Add Shop Product</h3>
+      <form id="add-product-form">
+        <div class="form-group"><label>Product Name</label><input type="text" id="prod-name" required></div>
+        <div class="form-group"><label>Description</label><textarea id="prod-desc" rows="2" required></textarea></div>
+        <div class="form-group"><label>Price (PKR)</label><input type="number" id="prod-price" min="0" required></div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="prod-cat">
+            <option value="jersey">Jersey</option>
+            <option value="cap">Cap</option>
+            <option value="equipment">Equipment</option>
+            <option value="accessories">Accessories</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Product Image</label>
+          <div class="file-upload-area" onclick="document.getElementById('prod-img-file').click()">
+            <span id="prod-img-label">📷 Click to browse image</span>
+            <input type="file" id="prod-img-file" accept="image/*" style="display:none" onchange="previewProductImg(event)">
+          </div>
+          <img id="prod-img-preview" src="" alt="" style="display:none; width:100px; height:100px; object-fit:cover; margin-top:8px; border-radius:8px; border:1px solid var(--border);">
+        </div>
+        <button type="submit" class="btn-primary">Add Product</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- New Forum Topic Modal -->
+  <div id="new-topic-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <span class="close-btn" onclick="closeModal('new-topic-modal')">&times;</span>
+      <h3>Start a New Discussion</h3>
+      <form id="new-topic-form">
+        <div class="form-group"><label>Your Name</label><input type="text" id="topic-author" required></div>
+        <div class="form-group"><label>Topic Title</label><input type="text" id="topic-title" required></div>
+        <div class="form-group"><label>Your Message</label><textarea id="topic-body" rows="4" required></textarea></div>
+        <button type="submit" class="btn-primary">Post Topic</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Forum Thread Modal -->
+  <div id="thread-modal" class="modal-overlay hidden">
+    <div class="modal-box modal-wide">
+      <span class="close-btn" onclick="closeModal('thread-modal')">&times;</span>
+      <h3 id="thread-title"></h3>
+      <div id="thread-replies"></div>
+      <form id="reply-form">
+        <div class="form-group"><label>Your Name</label><input type="text" id="reply-author" required></div>
+        <div class="form-group"><label>Reply</label><textarea id="reply-body" rows="3" required></textarea></div>
+        <button type="submit" class="btn-primary">Post Reply</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
