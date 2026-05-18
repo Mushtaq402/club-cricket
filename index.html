@@ -31,6 +31,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
 
   <!-- ══ NAV ══ -->
   <nav>
@@ -56,7 +58,7 @@
     </ul>
     
     <div class="nav-right">
-      <button id="lang-toggle" class="lang-btn" onclick="toggleLanguage()" aria-label="Switch language">اردو</button>
+      <button id="lang-toggle" class="lang-btn" type="button" onclick="toggleLanguage()" aria-label="Switch language">اردو</button>
       <a href="#" id="admin-login-link" data-i18n="nav_login">Staff Login</a>
     </div>
   </nav>
@@ -64,10 +66,30 @@
   <!-- ══ HERO ══ -->
   <header>
     <section id="hero">
-      <h1 data-i18n="hero_title">Welcome to AL-QAIM CRICKET CLUB</h1>
+      <div class="hero-badge tilt-card" data-tilt>
+        <span class="hero-badge-dot"></span>
+        <span data-i18n="hero_badge">Bhakkar · Punjab · Pakistan</span>
+      </div>
+      <h1 class="hero-title-3d" data-i18n="hero_title">Welcome to AL-QAIM CRICKET CLUB</h1>
       <p data-i18n="hero_sub">Passion. Teamwork. Victory.</p>
-      <a href="#matches" data-i18n="hero_cta1">View Upcoming Matches</a>
-      <a href="#membership" data-i18n="hero_cta2">Join the Fan Club</a>
+      <div class="hero-cta-row">
+        <a href="#matches" class="btn-3d btn-3d-primary" data-i18n="hero_cta1">View Upcoming Matches</a>
+        <a href="#membership" class="btn-3d btn-3d-ghost" data-i18n="hero_cta2">Join the Fan Club</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card tilt-card" data-tilt>
+          <strong data-i18n="stat_matches">50+</strong>
+          <span data-i18n="stat_matches_lbl">Matches Played</span>
+        </div>
+        <div class="stat-card tilt-card" data-tilt>
+          <strong data-i18n="stat_players">30+</strong>
+          <span data-i18n="stat_players_lbl">Active Players</span>
+        </div>
+        <div class="stat-card tilt-card" data-tilt>
+          <strong data-i18n="stat_fans">500+</strong>
+          <span data-i18n="stat_fans_lbl">Fan Club Members</span>
+        </div>
+      </div>
     </section>
   </header>
 
@@ -227,7 +249,7 @@
     <p data-i18n="fantasy_desc">Select 11 players from our squad and earn points based on their real-world performance.</p>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:2rem;">
       <div><h4 data-i18n="fantasy_available">Available Players</h4><div id="fantasy-players"></div></div>
-      <div><h4>Your Team</h4><div id="fantasy-team"></div><button class="btn-primary" style="margin-top:1rem;" data-i18n="fantasy_submit">Submit Team</button></div>
+      <div><h4 data-i18n="fantasy_your_team">Your Team</h4><div id="fantasy-team"></div><button class="btn-primary" style="margin-top:1rem;" data-i18n="fantasy_submit">Submit Team</button></div>
     </div>
     <h3 style="margin-top:3rem;" data-i18n="fantasy_lb">Leaderboard</h3>
     <div id="fantasy-leaderboard"></div>
@@ -333,23 +355,33 @@
   </section>
 
   <!-- ══ LOGIN MODAL ══ -->
-  <div id="login-modal" class="modal-overlay hidden">
-    <div class="login-box">
-      <div class="login-logo" data-i18n="nav_title">AL-QAIM CRICKET CLUB</div>
-      <div class="login-sub" data-i18n="login_sub">Staff Panel — Secure Login</div>
-      <label data-i18n="login_user">Username</label>
-      <input type="text" id="u-input" placeholder="admin / mediamgr / scorekeeper / shopmgr" autocomplete="off">
-      <label data-i18n="login_pass">Password</label>
-      <input type="password" id="p-input" placeholder="•••••" autocomplete="off">
-      <button id="login-btn" onclick="doLogin()" data-i18n="login_btn">Login</button>
-      <div id="login-error" data-i18n="login_error">⚠ Invalid credentials. Please try again.</div>
-      <button class="close-btn" onclick="closeLoginModal()">&times;</button>
-      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted);">
-        <strong>⚠️ NOTE FOR PRODUCTION:</strong> This authentication is client-side only for demonstration. For production deployment, implement server-side authentication with proper security.
+  <div id="login-modal" class="modal-overlay hidden" role="dialog" aria-labelledby="login-heading" aria-modal="true">
+    <div class="login-box login-box-3d tilt-card">
+      <button class="close-btn login-close" type="button" onclick="closeLoginModal()" aria-label="Close">&times;</button>
+      <div class="login-logo" id="login-heading" data-i18n="nav_title">AL-QAIM CRICKET CLUB</div>
+      <p class="login-sub" data-i18n="login_sub">Staff Panel — Secure Login</p>
+      <p class="login-role-label" data-i18n="login_role_pick">Select your role</p>
+      <div class="login-roles" id="login-roles">
+        <button type="button" class="role-chip active" data-role="admin" data-i18n="role_admin">Admin</button>
+        <button type="button" class="role-chip" data-role="mediamgr" data-i18n="role_media">Media</button>
+        <button type="button" class="role-chip" data-role="scorekeeper" data-i18n="role_score">Scorekeeper</button>
+        <button type="button" class="role-chip" data-role="shopmgr" data-i18n="role_shop">Shop</button>
       </div>
+      <label for="u-input" data-i18n="login_user">Username</label>
+      <input type="text" id="u-input" autocomplete="username" readonly>
+      <label for="p-input" data-i18n="login_pass">Password</label>
+      <div class="login-pass-wrap">
+        <input type="password" id="p-input" autocomplete="current-password" data-i18n-placeholder="login_pass_ph">
+        <button type="button" class="pass-toggle" id="pass-toggle" aria-label="Show password">&#128065;</button>
+      </div>
+      <button type="button" id="login-btn" onclick="doLogin()" data-i18n="login_btn">Login</button>
+      <div id="login-error" role="alert" data-i18n="login_error">Invalid credentials. Please try again.</div>
+      <details class="login-demo-note">
+        <summary data-i18n="login_demo_toggle">Demo access info</summary>
+        <p data-i18n="login_demo_text">This demo uses local browser storage only. For production, connect Firebase, Supabase, or your own API with server-side auth.</p>
+      </details>
     </div>
   </div>
-
   <!-- ══ MODALS (Rest of modals from original file) ══ -->
   <!-- Add Match Modal -->
   <div id="add-match-modal" class="modal-overlay hidden">
@@ -516,6 +548,13 @@
     </div>
   </div>
 
+  <footer class="site-footer">
+    <p data-i18n="footer_tagline">AL-QAIM Cricket Club · Bhakkar, Punjab</p>
+    <p class="footer-copy" data-i18n="footer_copy">&copy; 2026 Al-Qaim CC. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="script.js"></script>
+  <script src="scene3d.js"></script>
 </body>
 </html>

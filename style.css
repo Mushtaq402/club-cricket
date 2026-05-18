@@ -228,7 +228,7 @@ header { position: relative; overflow: hidden; }
   animation:fadeUp 0.9s 0.2s ease both; 
 }
 
-#hero a {
+#hero .hero-cta-row a:not(.btn-3d) {
   display:inline-block; 
   padding:14px 36px; 
   border-radius:100px;
@@ -241,25 +241,25 @@ header { position: relative; overflow: hidden; }
   animation:fadeUp 0.9s 0.35s ease both;
 }
 
-#hero a:first-of-type { 
+#hero .hero-cta-row a:not(.btn-3d):first-of-type { 
   background:linear-gradient(135deg,var(--accent-green),var(--accent-cyan)); 
   color:#080c14; 
   margin-right:1rem; 
   box-shadow:var(--glow-green); 
 }
 
-#hero a:first-of-type:hover { 
+#hero .hero-cta-row a:not(.btn-3d):first-of-type:hover { 
   transform:translateY(-3px) scale(1.03); 
   box-shadow:0 0 40px rgba(0,229,160,0.45); 
 }
 
-#hero a:last-of-type { 
+#hero .hero-cta-row a:not(.btn-3d):last-of-type { 
   background:transparent; 
   color:var(--text-primary); 
   border:1.5px solid rgba(255,255,255,0.2); 
 }
 
-#hero a:last-of-type:hover { 
+#hero .hero-cta-row a:not(.btn-3d):last-of-type:hover { 
   border-color:var(--accent-cyan); 
   color:var(--accent-cyan); 
   box-shadow:var(--glow-cyan); 
@@ -1202,12 +1202,8 @@ section > h2::after {
 
   #hero { padding: 2rem 2vw 1.5rem; min-height: 60vh; }
   #hero h1 { font-size: clamp(1.4rem, 5vw, 2.5rem); }
-  #hero a { 
-    display: block; 
-    width: 100%; 
-    margin-right: 0; 
-    margin-bottom: 0.8rem; 
-  }
+  .hero-cta-row { flex-direction: column; align-items: stretch; }
+  .btn-3d { display: block; width: 100%; text-align: center; margin-bottom: 0.5rem; }
 
   .form-group { margin-bottom: 0.8rem; }
 
@@ -1228,4 +1224,392 @@ section > h2::after {
   .members-table th, .members-table td { padding: 6px 8px; }
 
   section > h2 { font-size: 1.3rem; }
+
+  .hero-stats { grid-template-columns: 1fr; }
+  .login-roles { grid-template-columns: 1fr 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   3D INTERACTIVE LAYER — v5
+   ═══════════════════════════════════════════════════════ */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,229,160,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+body.cursor-active .cursor-glow { opacity: 1; }
+
+nav, header, main, section, footer { position: relative; z-index: 2; }
+
+/* Hero 3D */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 100px;
+  border: 1px solid rgba(0,229,160,0.35);
+  background: rgba(0,229,160,0.08);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-green);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 12px var(--accent-green);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.hero-title-3d {
+  transform-style: preserve-3d;
+  text-shadow:
+    0 1px 0 rgba(0,229,160,0.3),
+    0 8px 24px rgba(0,0,0,0.5),
+    0 0 60px rgba(0,229,160,0.15);
+}
+
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.btn-3d {
+  display: inline-block;
+  padding: 14px 36px;
+  border-radius: 100px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transform-style: preserve-3d;
+  animation: fadeUp 0.9s 0.35s ease both;
+}
+
+.btn-3d-primary {
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+  color: #080c14;
+  box-shadow: var(--glow-green), 0 8px 0 #0a6b52;
+}
+
+.btn-3d-primary:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 0 40px rgba(0,229,160,0.45), 0 12px 0 #0a6b52;
+}
+
+.btn-3d-primary:active { transform: translateY(2px); box-shadow: var(--glow-green), 0 4px 0 #0a6b52; }
+
+.btn-3d-ghost {
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+}
+
+.btn-3d-ghost:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  transform: translateY(-3px);
+  box-shadow: var(--glow-cyan);
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 1rem;
+  max-width: 720px;
+  width: 100%;
+  margin-top: 1rem;
+  animation: fadeUp 1s 0.5s ease both;
+}
+
+.stat-card {
+  background: linear-gradient(145deg, rgba(13,21,37,0.95), rgba(17,27,46,0.85));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+}
+
+.stat-card:hover {
+  box-shadow: 0 20px 48px rgba(0,229,160,0.12);
+}
+
+.stat-card strong {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  color: var(--accent-green);
+  line-height: 1;
+}
+
+.stat-card span {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Tilt cards (sections) */
+.tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+section > h2,
+.match-card,
+.section-card,
+.player-card,
+.live-score-card,
+.live-stream-card,
+.shop-item {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px) rotateX(8deg);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0) rotateX(0);
+}
+
+/* Urdu refinements v5 */
+body.urdu nav h1 {
+  font-family: 'Noto Nastaliq Urdu', 'Noto Sans Urdu', serif;
+  letter-spacing: 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+body.urdu .hero-title-3d,
+body.urdu #hero h1 {
+  font-family: 'Noto Nastaliq Urdu', serif;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+body.urdu .stat-card strong {
+  font-family: 'Noto Sans Urdu', sans-serif;
+  font-size: 1.8rem;
+}
+
+body.urdu nav ul li::after {
+  left: auto;
+  right: 0;
+}
+
+body.urdu section > h2::after {
+  left: auto;
+  right: 0;
+}
+
+body.urdu .login-logo {
+  font-family: 'Noto Nastaliq Urdu', serif;
+  -webkit-text-fill-color: unset;
+  background: none;
+  color: var(--accent-green);
+  font-size: 1.6rem;
+}
+
+body.urdu .login-box label,
+body.urdu .login-role-label {
+  font-family: 'Noto Sans Urdu', sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 0.9rem;
+}
+
+body.urdu .login-box input,
+body.urdu #login-btn {
+  font-family: 'Noto Sans Urdu', 'Rajdhani', sans-serif;
+}
+
+body.urdu .role-chip {
+  font-family: 'Noto Sans Urdu', sans-serif;
+}
+
+body.urdu .hero-badge {
+  font-family: 'Noto Sans Urdu', sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+body.urdu #hero p {
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+/* Staff login 3D */
+.login-box-3d {
+  max-width: 440px;
+  background: linear-gradient(160deg, rgba(13,21,37,0.98), rgba(8,12,20,0.95));
+  border: 1px solid rgba(0,229,160,0.2);
+  box-shadow:
+    0 24px 80px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(0,200,255,0.08) inset,
+    0 0 40px rgba(0,229,160,0.08);
+  transform-style: preserve-3d;
+}
+
+.login-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+}
+
+body.urdu .login-close {
+  right: auto;
+  left: 16px;
+}
+
+.login-role-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 0.6rem;
+}
+
+.login-roles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.role-chip {
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-muted);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.role-chip:hover {
+  border-color: rgba(0,229,160,0.4);
+  color: var(--text-primary);
+}
+
+.role-chip.active {
+  background: rgba(0,229,160,0.12);
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  box-shadow: 0 0 16px rgba(0,229,160,0.2);
+}
+
+.login-pass-wrap {
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+.login-pass-wrap input {
+  margin-bottom: 0;
+  padding-right: 44px;
+}
+
+body.urdu .login-pass-wrap input {
+  padding-right: 14px;
+  padding-left: 44px;
+}
+
+.pass-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+body.urdu .pass-toggle {
+  right: auto;
+  left: 10px;
+}
+
+.login-demo-note {
+  margin-top: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.login-demo-note summary {
+  cursor: pointer;
+  color: var(--accent-cyan);
+}
+
+#login-btn.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+#admin-login-link.staff-active {
+  color: var(--accent-green) !important;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 2.5rem 5vw 3rem;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 2;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+  .tilt-card { transform: none !important; }
+  #bg-canvas { display: none; }
 }

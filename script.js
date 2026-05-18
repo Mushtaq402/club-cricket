@@ -20,6 +20,13 @@ function saveLS(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
 function loadLS(k, fb) { try { return JSON.parse(localStorage.getItem(k)) ?? fb; } catch { return fb; } }
 function timeAgo(ts) {
   const d = Date.now() - ts, m = Math.floor(d/60000);
+  if (lang === 'ur') {
+    if (m < 1) return 'ابھی';
+    if (m < 60) return `${m} منٹ پہلے`;
+    const h = Math.floor(m/60);
+    if (h < 24) return `${h} گھنٹے پہلے`;
+    return `${Math.floor(h/24)} دن پہلے`;
+  }
   if (m < 1) return 'just now';
   if (m < 60) return `${m}m ago`;
   const h = Math.floor(m/60);
@@ -27,63 +34,153 @@ function timeAgo(ts) {
   return `${Math.floor(h/24)}d ago`;
 }
 
-// ── MULTI-ROLE AUTH ───────────────────────────────────
+function t(key) { return i18n[lang]?.[key] ?? i18n.en[key] ?? key; }
+
+// ── MULTI-ROLE AUTH (demo — SHA-256 hashes, not plaintext) ──
 const STAFF = {
-  admin:        { pass: 'alqaim2026',   role: 'admin',   label: 'Admin',         permissions: ['matches','score','media','players','events','shop','contests','members','messages','stream'] },
-  mediamgr:     { pass: 'media2026',    role: 'media',   label: 'Media Manager', permissions: ['media'] },
-  scorekeeper:  { pass: 'score2026',    role: 'score',   label: 'Scorekeeper',   permissions: ['score','matches'] },
-  shopmgr:      { pass: 'shop2026',     role: 'shop',    label: 'Shop Manager',  permissions: ['shop'] },
+  admin:        { role: 'admin',   labelKey: 'role_admin_lbl', permissions: ['matches','score','media','players','events','shop','contests','members','messages','stream'] },
+  mediamgr:     { role: 'media',   labelKey: 'role_media_lbl', permissions: ['media'] },
+  scorekeeper:  { role: 'score',   labelKey: 'role_score_lbl', permissions: ['score','matches'] },
+  shopmgr:      { role: 'shop',    labelKey: 'role_shop_lbl', permissions: ['shop'] },
 };
 
-let currentUser = null; // { username, role, label, permissions[] }
+// Demo passwords (hashed at runtime on first load)
+const DEMO_PASS = {
+  admin: 'alqaim2026',
+  mediamgr: 'media2026',
+  scorekeeper: 'score2026',
+  shopmgr: 'shop2026',
+};
+
+let staffHashesReady = false;
+const staffHashCache = {};
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function initStaffHashes() {
+  if (staffHashesReady) return;
+  for (const [user, pass] of Object.entries(DEMO_PASS)) {
+    staffHashCache[user] = await sha256(pass);
+  }
+  staffHashesReady = true;
+}
+
+let selectedLoginRole = 'admin';
+let currentUser = null;
+
+function staffLabel(user) {
+  const key = STAFF[user]?.labelKey;
+  return key ? t(key) : user;
+}
 
 function can(perm) { return currentUser && (currentUser.permissions.includes(perm) || currentUser.role === 'admin'); }
 
+function openLoginModal() {
+  openModal('login-modal');
+  selectLoginRole(selectedLoginRole || 'admin');
+  $('p-input').value = '';
+  $('login-error').style.display = 'none';
+  setTimeout(() => $('p-input').focus(), 200);
+}
+
 $('admin-login-link').addEventListener('click', e => {
   e.preventDefault();
-  if (currentUser) { doLogout(); } else { openModal('login-modal'); }
+  if (currentUser) { doLogout(); } else { openLoginModal(); }
 });
 
 function closeLoginModal() { closeModal('login-modal'); $('login-error').style.display = 'none'; }
 
-function doLogin() {
+function selectLoginRole(role) {
+  selectedLoginRole = role;
+  $('u-input').value = role;
+  document.querySelectorAll('.role-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.role === role);
+  });
+}
+
+function bindLoginRoleChips() {
+  document.querySelectorAll('.role-chip').forEach(chip => {
+    chip.addEventListener('click', () => selectLoginRole(chip.dataset.role));
+  });
+}
+
+const passToggle = $('pass-toggle');
+if (passToggle) {
+  passToggle.addEventListener('click', () => {
+    const inp = $('p-input');
+    const show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password';
+    passToggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  });
+}
+
+async function doLogin() {
+  const btn = $('login-btn');
   const u = $('u-input').value.trim().toLowerCase();
   const p = $('p-input').value;
   const staff = STAFF[u];
-  if (staff && staff.pass === p) {
-    currentUser = { username: u, ...staff };
+  $('login-error').style.display = 'none';
+  if (!staff || !p) {
+    $('login-error').style.display = 'block';
+    return;
+  }
+  btn.classList.add('loading');
+  await initStaffHashes();
+  const match = staffHashCache[u] === await sha256(p);
+  btn.classList.remove('loading');
+  if (match) {
+    currentUser = { username: u, role: staff.role, label: staffLabel(u), permissions: staff.permissions };
+    sessionStorage.setItem('aqcc_staff', JSON.stringify({ username: u }));
     closeLoginModal();
     applyRoleUI();
-    $('u-input').value = ''; $('p-input').value = '';
+    $('p-input').value = '';
   } else {
     $('login-error').style.display = 'block';
     $('p-input').value = '';
-    setTimeout(() => $('login-error').style.display = 'none', 3000);
+    $('p-input').focus();
+    setTimeout(() => { if ($('login-error')) $('login-error').style.display = 'none'; }, 4000);
   }
 }
 
 $('p-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+$('u-input').addEventListener('keydown', e => { if (e.key === 'Enter') $('p-input').focus(); });
 
 function doLogout() {
   currentUser = null;
+  sessionStorage.removeItem('aqcc_staff');
   applyRoleUI();
+}
+
+async function restoreStaffSession() {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem('aqcc_staff') || 'null');
+    if (saved?.username && STAFF[saved.username]) {
+      const staff = STAFF[saved.username];
+      currentUser = { username: saved.username, role: staff.role, label: staffLabel(saved.username), permissions: staff.permissions };
+      applyRoleUI();
+    }
+  } catch { /* ignore */ }
 }
 
 function applyRoleUI() {
   const link = $('admin-login-link');
-  // Hide all role-gated elements first
   document.querySelectorAll('.admin-btn, .admin-only, .media-mgr-btn').forEach(el => el.classList.add('hidden'));
   $('members-admin-panel').classList.add('hidden');
   $('contact-admin-panel').classList.add('hidden');
+  link.classList.remove('staff-active');
 
   if (!currentUser) {
-    link.textContent = i18n[lang].nav_login;
+    link.textContent = t('nav_login');
     link.style.color = '';
     renderContests(); renderForumTopics();
     return;
   }
 
-  link.innerHTML = `${currentUser.label} <span class="role-tag role-${currentUser.role}">${currentUser.role.toUpperCase()}</span> · Logout`;
+  link.classList.add('staff-active');
+  link.innerHTML = `${currentUser.label} <span class="role-tag role-${currentUser.role}">${currentUser.role.toUpperCase()}</span> · ${t('nav_logout')}`;
   link.style.color = 'var(--accent-cyan)';
 
   // Show elements based on permissions
@@ -186,8 +283,20 @@ const i18n = {
     contact_name:'Name', contact_email:'Email', contact_subject:'Subject', contact_message:'Message',
     contact_send:'Send Message', contact_sent:'Message sent!', contact_sent_sub:"We'll get back to you soon.",
     contact_other:'Other Ways to Connect',
+    hero_badge:'Bhakkar · Punjab · Pakistan',
+    stat_matches:'50+', stat_matches_lbl:'Matches Played',
+    stat_players:'30+', stat_players_lbl:'Active Players',
+    stat_fans:'500+', stat_fans_lbl:'Fan Club Members',
+    fantasy_your_team:'Your Team',
+    nav_logout:'Logout',
     login_sub:'Staff Panel — Secure Login', login_user:'Username', login_pass:'Password',
-    login_btn:'Login', login_error:'⚠ Invalid credentials. Please try again.',
+    login_pass_ph:'Enter password', login_btn:'Login', login_error:'Invalid credentials. Please try again.',
+    login_role_pick:'Select your role', role_admin:'Admin', role_media:'Media', role_score:'Scorekeeper', role_shop:'Shop',
+    role_admin_lbl:'Admin', role_media_lbl:'Media Manager', role_score_lbl:'Scorekeeper', role_shop_lbl:'Shop Manager',
+    login_demo_toggle:'Demo access info', login_demo_text:'Demo passwords: admin/alqaim2026, mediamgr/media2026, scorekeeper/score2026, shopmgr/shop2026. For production, use server-side authentication.',
+    empty_matches:'No upcoming matches scheduled. Check back soon!',
+    footer_tagline:'AL-QAIM Cricket Club · Bhakkar, Punjab',
+    footer_copy:'© 2026 Al-Qaim CC. All rights reserved.',
     modal_add_match:'Add New Match',
   },
   ur: {
@@ -236,8 +345,20 @@ const i18n = {
     contact_name:'نام', contact_email:'ای میل', contact_subject:'موضوع', contact_message:'پیغام',
     contact_send:'پیغام بھیجیں', contact_sent:'پیغام بھیج دیا گیا!', contact_sent_sub:'ہم جلد آپ سے رابطہ کریں گے۔',
     contact_other:'رابطے کے دیگر طریقے',
+    hero_badge:'بھکر · پنجاب · پاکستان',
+    stat_matches:'50+', stat_matches_lbl:'کھیلے گئے میچز',
+    stat_players:'30+', stat_players_lbl:'فعال کھلاڑی',
+    stat_fans:'500+', stat_fans_lbl:'فین کلب ممبرز',
+    fantasy_your_team:'آپ کی ٹیم',
+    nav_logout:'لاگ آؤٹ',
     login_sub:'اسٹاف پینل — محفوظ لاگ ان', login_user:'صارف نام', login_pass:'پاس ورڈ',
-    login_btn:'لاگ ان', login_error:'⚠ غلط اسناد۔ دوبارہ کوشش کریں۔',
+    login_pass_ph:'پاس ورڈ درج کریں', login_btn:'لاگ ان', login_error:'غلط اسناد۔ دوبارہ کوشش کریں۔',
+    login_role_pick:'اپنا کردار منتخب کریں', role_admin:'ایڈمن', role_media:'میڈیا', role_score:'اسکور کیپر', role_shop:'شاپ',
+    role_admin_lbl:'ایڈمن', role_media_lbl:'میڈیا مینیجر', role_score_lbl:'اسکور کیپر', role_shop_lbl:'شاپ مینیجر',
+    login_demo_toggle:'ڈیمو رسائی کی معلومات', login_demo_text:'ڈیمو پاس ورڈ: admin/alqaim2026، mediamgr/media2026، scorekeeper/score2026، shopmgr/shop2026۔ پروڈکشن میں سرور سائیڈ تصدیق استعمال کریں۔',
+    empty_matches:'کوئی آنے والا میچ شیڈول نہیں۔ جلد دوبارہ چیک کریں!',
+    footer_tagline:'القائم کرکٹ کلب · بھکر، پنجاب',
+    footer_copy:'© 2026 القائم سی سی۔ جملہ حقوق محفوظ ہیں۔',
     modal_add_match:'نیا میچ شامل کریں',
   }
 };
@@ -247,17 +368,23 @@ function applyI18n() {
     const key = el.getAttribute('data-i18n');
     if (i18n[lang][key]) el.textContent = i18n[lang][key];
   });
-  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (i18n[lang][key]) el.placeholder = i18n[lang][key];
+  });
+  document.documentElement.lang = lang === 'ur' ? 'ur' : 'en';
   document.documentElement.dir = lang === 'ur' ? 'rtl' : 'ltr';
   document.body.classList.toggle('urdu', lang === 'ur');
-  $('lang-toggle').textContent = lang === 'en' ? 'اردو' : 'English';
+  const lt = $('lang-toggle');
+  if (lt) lt.textContent = lang === 'en' ? 'اردو' : 'English';
+  if (currentUser) applyRoleUI();
 }
-
-function toggleLanguage() {
+window.toggleLanguage = function toggleLanguage() {
   lang = lang === 'en' ? 'ur' : 'en';
   saveLS('aqcc_lang', lang);
   applyI18n();
-}
+  renderUpcomingMatches();
+};
 
 applyI18n();
 
@@ -271,7 +398,7 @@ function renderUpcomingMatches() {
   const list = $('upcoming-matches-list');
   const matches = getMatches();
   if (matches.length === 0) {
-    list.innerHTML = '<p style="color:var(--text-muted); padding:1rem 0;">No upcoming matches scheduled. Check back soon!</p>';
+    list.innerHTML = `<p style="color:var(--text-muted); padding:1rem 0;">${t('empty_matches')}</p>`;
     return;
   }
   list.innerHTML = matches.map(m => `
@@ -1175,10 +1302,16 @@ function getMessages() { return loadLS('aqcc_messages', []); }
 $('contact-form').addEventListener('submit', e => {
   e.preventDefault();
   const messages = getMessages();
-  messages.push({ name:$('c-name').value.trim(), email:$('c-email').value.trim(), subject:$('c-subject').value.trim(), message:$('c-message').value.trim(), sentAt:Date.now() });
+  messages.push({
+    name: $('contact-name').value.trim(),
+    email: $('contact-email').value.trim(),
+    subject: $('contact-subject').value.trim(),
+    message: $('contact-message').value.trim(),
+    sentAt: Date.now()
+  });
   saveLS('aqcc_messages', messages);
-  $('contact-form').style.display = 'none';
-  $('contact-success').classList.remove('hidden');
+  $('contact-form').reset();
+  alert(t('contact_sent'));
   if (can('messages')) renderMessagesPanel();
 });
 
@@ -1193,7 +1326,43 @@ function renderMessagesPanel() {
 // ════════════════════════════════════════════════════════
 // INIT — run everything on load
 // ════════════════════════════════════════════════════════
-window.addEventListener('load', () => {
+function initTiltCards() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('[data-tilt], .match-card, .section-card, .player-card, .live-score-card, .live-stream-card, .shop-item').forEach(card => {
+    if (!card.classList.contains('tilt-card')) card.classList.add('tilt-card');
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(800px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(6px)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+}
+
+function initScrollReveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('section').forEach(sec => {
+    sec.classList.add('reveal-on-scroll');
+    obs.observe(sec);
+  });
+}
+
+function initCursorGlow() {
+  const glow = $('cursor-glow');
+  if (!glow || window.matchMedia('(max-width: 768px)').matches) return;
+  document.body.classList.add('cursor-active');
+  document.addEventListener('mousemove', (e) => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  }, { passive: true });
+}
+
+window.addEventListener('load', async () => {
+  await initStaffHashes();
+  await restoreStaffSession();
   renderUpcomingMatches();
   renderScorecards();
   renderEvents();
@@ -1205,4 +1374,9 @@ window.addEventListener('load', () => {
   renderFantasyLeaderboard();
   renderShop();
   applyI18n();
+  initTiltCards();
+  initScrollReveal();
+  initCursorGlow();
+  bindLoginRoleChips();
+  selectLoginRole('admin');
 });
