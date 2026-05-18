@@ -574,9 +574,11 @@ function addBowlingRow() {
   $('bowling-rows').appendChild(div);
 }
 
-$('open-add-scorecard-btn').addEventListener('click', () => openModal('add-scorecard-modal'));
+const addScorecardBtn = $('open-add-scorecard-btn');
+const addScorecardForm = $('add-scorecard-form');
+if (addScorecardBtn) addScorecardBtn.addEventListener('click', () => openModal('add-scorecard-modal'));
 
-$('add-scorecard-form').addEventListener('submit', e => {
+if (addScorecardForm) addScorecardForm.addEventListener('submit', e => {
   e.preventDefault();
   const batting = Array.from(document.querySelectorAll('#batting-rows .scorecard-row')).map(row => ({
     name: row.querySelector('.sc-bat-name').value.trim(),
